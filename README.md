@@ -1,27 +1,35 @@
 <img class="img-fluid" align="center" src="https://github.com/ExtrieveTechnologies/QuickCapture/blob/main/QuickCapture.png?raw=true" width="30%" alt="img-verification"><a align="center" href='https://play.google.com/store/apps/details?id=com.extrieve.exScan&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1' title="Click to download android app" target="_blank" rel="noopener noreferrer"><img align="center" width="150px" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a><img align="right" class="img-fluid" padding="10px" src="https://github.com/ExtrieveTechnologies/QuickCapture/blob/main/android.png?raw=true?raw=true" alt="img-verification">
 
 
-## Document Scanning-Capture SDK ANDROID v3
+## Document Scanning-Capture SDK ANDROID v4.0
 QuickCapture Mobile Scanning SDK Specially designed for native ANDROID from [Extrieve](https://www.extrieve.com/).
 
 > It's not "**just**" a scanning SDK. It's a "**document**" scanning/capture SDK evolved with **Best Quality**, **Highest Possible Compression**, **Image Optimisation**, of output document in mind.
 
->Control **DPI**,**Layout** & **Size** of output images, PDF & TIFF
+> Control **DPI**,**Layout** & **Size** of output images, PDF & TIFF
+
+> **QR code** & **BAR Code** Scanning & Generation
 
 > **Developer-friendly** & **Easy to integration** SDK.
 
 *Choose the **right** version that suits your need* :
-- [**QuickCapture v2**](https://github.com/ExtrieveTechnologies/QuickCapture_Android/tree/QuickCapture-V2#document-scanning-capture-sdk-android-v2): Optimized capture functionality, designed to be as compact as possible [~ **2 MB**].
+- [**QuickCapture v4**](https://github.com/ExtrieveTechnologies/QuickCapture_Android/tree/QuickCapture-V3#document-scanning-capture-sdk-android-v3): Comprehensive & advanced **AI** functionalities,**QR Code & BAR Code** Scanning & Generation.
 - [**QuickCapture v3**](https://github.com/ExtrieveTechnologies/QuickCapture_Android/tree/QuickCapture-V3#document-scanning-capture-sdk-android-v3): Comprehensive & advanced **AI** functionalities, **comparatively bit** larger size [~ **20 MB**].
+- [**QuickCapture v2**](https://github.com/ExtrieveTechnologies/QuickCapture_Android/tree/QuickCapture-V2#document-scanning-capture-sdk-android-v2): Optimized capture functionality, designed to be as compact as possible [~ **2 MB**].
 
-> **End of support Notice** :  QuickCapture SDK Android **V1** deprecated by Dec. 2022.For any further updates and support, can use **V2**
+> **End of support Notice** :
+> QuickCapture SDK Android **V1** deprecated by Dec. 2022.For any further updates and support, can use **V2**
 > which having no major modifications.But with improved funcionalities,feature additions and fixes.
+> 
+> QuickCapture SDK Android **V2** deprecated by May. 2024.For any further updates and support, can use **V4** & bugfixes on **V3** 
 
 [Refer here for **V2 documentation** and samples](https://github.com/ExtrieveTechnologies/QuickCapture_Android/tree/QuickCapture-V2#mobile-document-scanning-sdk-android-v2)
+[Refer here for **V3 documentation** and samples](https://github.com/ExtrieveTechnologies/QuickCapture_Android/tree/QuickCapture-V2#mobile-document-scanning-sdk-android-v2)
 
 ### Other available platform options
 - [iOS](https://github.com/ExtrieveTechnologies/QuickCapture_IOS)
 - [Fultter Plugin](https://pub.dev/packages/quickcapture)
+- [React-Native Plugin](https://pub.dev/packages/quickcapture)
 - [Web SDK](https://github.com/ExtrieveTechnologies/QuickCapture_WEB)
 
 
@@ -39,7 +47,7 @@ repositories {
 
 //Then add implementation for SDK in dependencies in build.gradle (module:<yourmodulename>)
 dependencies {
-  implementation 'com.extrieve.quickcapture:QCv3:3.1.23'
+  implementation 'com.extrieve.quickcapture:QCv4:4.0.9'
 }
 ```
 
@@ -48,8 +56,8 @@ Or Maven:
 ```xml
 <dependency>
   <groupId>com.extrieve.quickcapture</groupId>
-  <artifactId>QCv3</artifactId>
-  <version>3.1.23</version>
+  <artifactId>QCv4</artifactId>
+  <version>4.0.9</version>
 </dependency>
 ```
 
@@ -58,7 +66,7 @@ Or even you can download the **.aar** library file from GitHub's [releases page]
 
 Compatibility
 -------------
- * **JAVA 8 Support**: QuickCapture v3 requires JAVA version 8 support for the application.
+ * **JAVA 11 Support**: QuickCapture v3 requires JAVA version 11 support for the application.
  * **Minimum Android SDK**: QuickCapture v3 requires a minimum API level of 21.
  * **Compiled SDK Version**: QuickCapture v3 compiled against **API 34**.
  
@@ -67,10 +75,11 @@ Compatibility
 
 SDK have two core classes and supporting classes :
 
- 1. **CameraHelper**	-	*Handle the  camera  related  operations. Basically, an activity.* 
- 2. **ImgHelper**	-	*Purpose of this class is to handle all imaging related operations.*
- 3. **Config**		-	*Holds various configurations SDK.* 
- 4. **ImgException**	-	*Handle all exceptions on image related operations on ImgHelper.*
+ 1. **CameraHelper**	  	-	*Handle the  camera  related  operations. Basically, an activity.* 
+ 2. **ImgHelper**	  	-	*Purpose of this class is to handle all imaging related operations.*
+ 3. **OpticalCodeHelper**	-	*Handle the  camera  related  operations. Basically, an activity.*
+ 4. **Config**		  	-	*Holds various configurations SDK.*
+ 5. **ImgException**	   	-	*Handle all exceptions on image related operations on ImgHelper.*
  
 
 Based on the requirement, any one or all classes can be used.And need to import those from the SDK.
