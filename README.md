@@ -1,3 +1,4 @@
+
 <img class="img-fluid" align="center" src="https://github.com/ExtrieveTechnologies/QuickCapture/blob/main/QuickCapture.png?raw=true" width="30%" alt="img-verification"><a align="center" href='https://play.google.com/store/apps/details?id=com.extrieve.exScan&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1' title="Click to download android app" target="_blank" rel="noopener noreferrer"><img align="center" width="150px" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a><img align="right" class="img-fluid" padding="10px" src="https://github.com/ExtrieveTechnologies/QuickCapture/blob/main/android.png?raw=true?raw=true" alt="img-verification">
 
 
@@ -47,7 +48,7 @@ repositories {
 
 //Then add implementation for SDK in dependencies in build.gradle (module:<yourmodulename>)
 dependencies {
-  implementation 'com.extrieve.quickcapture:QCv4:4.0.9'
+  implementation 'com.extrieve.quickcapture:QCv4:4.0.10'
 }
 ```
 
@@ -57,7 +58,7 @@ Or Maven:
 <dependency>
   <groupId>com.extrieve.quickcapture</groupId>
   <artifactId>QCv4</artifactId>
-  <version>4.0.9</version>
+  <version>4.0.10</version>
 </dependency>
 ```
 
@@ -66,9 +67,9 @@ Or even you can download the **.aar** library file from GitHub's [releases page]
 
 Compatibility
 -------------
- * **JAVA 11 Support**: QuickCapture v3 requires JAVA version 11 support for the application.
- * **Minimum Android SDK**: QuickCapture v3 requires a minimum API level of 21.
- * **Compiled SDK Version**: QuickCapture v3 compiled against **API 34**.
+ * **JAVA 17 Support**: QuickCapture v4 requires JAVA version 17 support for the application.
+ * **Minimum Android SDK**: QuickCapture v4 requires a minimum API level of 21.
+ * **Compiled SDK Version**: QuickCapture v4 compiled against **API 34**.
  
 
 ## API and  integration  Details - Available properties and method
@@ -77,9 +78,8 @@ SDK have two core classes and supporting classes :
 
  1. **CameraHelper**	  	-	*Handle the  camera  related  operations. Basically, an activity.* 
  2. **ImgHelper**	  	-	*Purpose of this class is to handle all imaging related operations.*
- 3. **OpticalCodeHelper**	-	*Handle the  camera  related  operations. Basically, an activity.*
- 4. **Config**		  	-	*Holds various configurations SDK.*
- 5. **ImgException**	   	-	*Handle all exceptions on image related operations on ImgHelper.*
+ 3. **OpticalCodeHelper**	-	*Handle the  Opticalcode (QR CODE & BAR CODE) related activities*
+ 4. **Config**		  	-	*Holds various configurations for SDK.*
  
 
 Based on the requirement, any one or all classes can be used.And need to import those from the SDK.
@@ -88,6 +88,7 @@ Based on the requirement, any one or all classes can be used.And need to import 
     //OR : can import only required classes as per use cases.
     import  com.extrieve.quickcapture.sdk.ImgHelper;  
     import  com.extrieve.quickcapture.sdk.CameraHelper;
+    import  com.extrieve.quickcapture.sdk.OpticalCodeHelper;
     import  com.extrieve.quickcapture.sdk.Config;  
     import  com.extrieve.quickcapture.sdk.ImgException;
    ```
@@ -283,7 +284,7 @@ try {
     Toast.makeText(this, "Failed to open camera  -" + ex.message, Toast.LENGTH_LONG).show()
 }
 ```
-## Confg
+## Config
 SDK included a supporting class with static configuration - which includes all configurations related to SDK.Confg contains a sub configuration collection **CaptureSupport** - contains all the Capture & review related configurations.
 Config.CaptureSupport  :  contains various configurations as follows:
 
@@ -344,24 +345,6 @@ Config.CaptureSupport  :  contains various configurations as follows:
 	//Kotlin
 	Config!!.CaptureSupport!!.CaptureSound = true;
 	```
-- **DeviceInfo** - Will share all general information about the device.
-	```java
-	//JAVA
-	Config.CaptureSupport.DeviceInfo;
-	```
-	```kotlin
-	//Kotlin
-	Config!!.CaptureSupport!!.DeviceInfo;
-	```
-- **SDKInfo**  - Contains all version related information on SDK.
-	```java
-	//JAVA
-	Config.CaptureSupport.SDKInfo;
-	```
-	```kotlin
-	//Kotlin
-	Config!!.CaptureSupport!!.SDKInfo;
-	```
 
 - **CameraToggle**  -  Toggle  camera  between  front  and  back.
 	```java
@@ -377,7 +360,45 @@ Config.CaptureSupport  :  contains various configurations as follows:
 	//DISABLED (0) -Disable camera toggle option.
 	//ENABLE_BACK_DEFAULT (1) - Enable camera toggle option with Front camera by default.
 	//ENABLE_FRONT_DEFAULT (2) - Enable camera toggle option with Back camera  by default.
+**Common** - contains all the Capture & review related configurations.
+Config.CaptureSupport  :  contains various configurations as follows:
+- **SDKInfo**  - Contains all version related information on SDK.
+	```java
+	//JAVA
+	Config.CaptureSupport.SDKInfo;
 	```
+	```kotlin
+	//Kotlin
+	Config!!.CaptureSupport!!.SDKInfo;
+	```
+- **DeviceInfo** - Will share all general information about the device.
+	```java
+	//JAVA
+	Config.CaptureSupport.DeviceInfo;
+	```
+	```kotlin
+	//Kotlin
+	Config!!.CaptureSupport!!.DeviceInfo;
+	```
+
+
+**License** - contains all the Capture & review related configurations.
+Config.CaptureSupport  :  contains various configurations as follows:	```
+
+- ***Activate*** - *Set the Layout for the images generated/processed by the system.*
+	```java
+ 	//JAVA
+	Config.License.Activate(hostApplicationContext,licenseString);
+	```
+ 	```kotlin
+  	//Kotlin
+	Config!!.License!!.Activate(hostApplicationContext,licenseString)
+	```
+	 >*Available layouts* : A1, A2, A3, **A4**, A5, A6, A7,PHOTO & CUSTOM
+	 
+	*A4 is the most recommended layout for document capture scenarios.*
+	 
+
 ## ImgHelper
 Following are the options/methods available from class **ImgHelper** :
 ```java
@@ -563,14 +584,9 @@ As a part of exceptional error handling **ImgException** class is available.
 	
 //Read lic asset file locally or provide a file url
 // eg : String licData = readAssetFile("com.extrieve.lic", this);  
-//Pass liscence data to UnlockImagingLibrary method on object(imageHelper) of ImgHelper class.
-Boolean IsUnlocked = ImageHelper.UnlockImagingLibrary(licData)
-
-/*
-boolean UnlockImagingLibrary(String licenseFileData)
-	throws Exception
-*/
-
+//Pass liscence data to Activate method on Config.License.
+String licStr = "<Provide license string here >";  
+Boolean IsUnlocked = Config.License.Activate(this,licStr);
 ```
 
 ```kotlin
@@ -580,12 +596,6 @@ boolean UnlockImagingLibrary(String licenseFileData)
 // eg : String licData = readAssetFile("com.extrieve.lic", this);  
 //Pass liscence data to UnlockImagingLibrary method on object(imageHelper) of ImgHelper class.
 val isUnlocked: Boolean = imageHelper!!.UnlockImagingLibrary(licData)
-
-/*
-boolean UnlockImagingLibrary(String licenseFileData)
-	throws Exception
-*/
-
 ```
 
 	
