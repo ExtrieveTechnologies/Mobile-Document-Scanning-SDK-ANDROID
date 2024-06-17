@@ -595,7 +595,7 @@ Boolean IsUnlocked = Config.License.Activate(this,licStr);
 //Read lic asset file locally or provide a file url
 // eg : String licData = readAssetFile("com.extrieve.lic", this);  
 //Pass liscence data to UnlockImagingLibrary method on object(imageHelper) of ImgHelper class.
-val isUnlocked: Boolean = imageHelper!!.UnlockImagingLibrary(licData)
+val isUnlocked: Boolean = Config!!.License!!.Activate(this,licStr);
 ```
 
 	
