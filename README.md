@@ -7,7 +7,7 @@ QuickCapture Mobile Scanning SDK Specially designed for native ANDROID from [Ext
 
 > It's not "**just**" a scanning SDK. It's a "**document**" scanning/capture SDK evolved with **Best Quality**, **Highest Possible Compression**, **Image Optimisation**, of output document in mind.
 
-> Control **DPI**,**Layout** & **Size** of output images, PDF & TIFF
+> Controls **DPI**,**Layout** & **Size** of output images, PDF & TIFF
 
 > **QR code** & **BAR Code** Scanning & Generation
 
@@ -62,7 +62,7 @@ Or Maven:
 </dependency>
 ```
 
-Or even you can download the **.aar** library file from GitHub's [releases page](https://github.com/ExtrieveTechnologies/QuickCapture_Android/releases/) and add the file dependency manually in to the project/app.
+Or you can even download the **.aar** library file from GitHub's [releases page](https://github.com/ExtrieveTechnologies/QuickCapture_Android/releases/) and add the file dependency manually in to the project/app.
 
 
 Compatibility
@@ -76,13 +76,13 @@ Compatibility
 
 SDK have two core classes and supporting classes :
 
- 1. **CameraHelper**	  	-	*Handle the  camera  related  operations. Basically, an activity.* 
+ 1. **CameraHelper**	  	-	*Handles the  camera  related  operations. Basically, an activity.* 
  2. **ImgHelper**	  	-	*Purpose of this class is to handle all imaging related operations.*
- 3. **OpticalCodeHelper**	-	*Handle the  Opticalcode (QR CODE & BAR CODE) related activities*
+ 3. **OpticalCodeHelper**	-	*Handles the  Opticalcode (QR CODE & BAR CODE) related activities*
  4. **Config**		  	-	*Holds various configurations for SDK.*
  
 
-Based on the requirement, any one or all classes can be used.And need to import those from the SDK.
+Based on the requirement, any or all classes can be used. These classes need to be imported from the SDK.
 ```java
     import com.extrieve.quickcapture.sdk.*;
     //OR : can import only required classes as per use cases.
@@ -113,7 +113,7 @@ SDK having multiple flows as follows :
 * **IMAGE_ATTACH_REVIEW** - *Attach/pass image **->** review.*
   
 
-**1. CAMERA_CAPTURE_REVIEW** - *Default flow of the CameraHelper.Includes Capture with SDK Camera -> Review Image.*
+**1. CAMERA_CAPTURE_REVIEW** - *Default flow of the CameraHelper. Includes Capture with SDK Camera -> Review Image.*
 
 ```java
 //JAVA
@@ -229,7 +229,7 @@ try {
 }
 ```
 
-**3. IMAGE_ATTACH_REVIEW** - *If user need to review an image from device / gallery - this option can be used.After attach each image,review and all functionalities depends on review can be avail*.
+**3. IMAGE_ATTACH_REVIEW** - *If user needs to review an image from device / gallery - this option can be used. After attaching an image,review and all functionalities depends on review can be avail*.
 
 ```java
 //JAVA
@@ -285,7 +285,9 @@ try {
 }
 ```
 ## Config
-SDK included a supporting class with static configuration - which includes all configurations related to SDK.Confg contains a sub configuration collection **CaptureSupport** - contains all the Capture & review related configurations.
+SDK is included with a supporting class that has static configuration - this includes all configurations related to SDK.Config contains a collection of sub configurations which include:
+
+- **CaptureSupport** - contains all the Capture & review related configurations.
 Config.CaptureSupport  :  contains various configurations as follows:
 
 - **OutputPath** - To set the output directory in which the captured images will be saved.Base app should have rights to write to the provided path.
@@ -327,7 +329,7 @@ Config.CaptureSupport  :  contains various configurations as follows:
 	//RBG (1) - Use capture flow in color mode.
 	//GREY (2) - Use capture flow in grey scale mode.
 	```
-- **EnableFlash**  -  Enable Document capture specific flash control for SDK camera.
+- **EnableFlash**  -  Enable Document capture specific to flash control for SDK camera.
 	```java
 	//JAVA
 	Config.CaptureSupport.EnableFlash = true;
@@ -360,6 +362,7 @@ Config.CaptureSupport  :  contains various configurations as follows:
 	//DISABLED (0) -Disable camera toggle option.
 	//ENABLE_BACK_DEFAULT (1) - Enable camera toggle option with Front camera by default.
 	//ENABLE_FRONT_DEFAULT (2) - Enable camera toggle option with Back camera  by default.
+
 **Common** - contains all the Capture & review related configurations.
 Config.CaptureSupport  :  contains various configurations as follows:
 - **SDKInfo**  - Contains all version related information on SDK.
@@ -409,7 +412,7 @@ ImgHelper ImageHelper = new ImgHelper(this);
 //Kotlin
 var ImageHelper: ImgHelper? = ImgHelper(this)
 ```
-- ***SetImageQuality*** - *Set the Quality of the image, Document_Qualityisused.If documents are used further for any automations and OCR, use Document_Quality.*
+- ***SetImageQuality*** - *Set the Quality of the image, Document_Quality is used. If documents are used further for any automations and OCR, use Document_Quality.*
 	 >*Available Image Qualities* :
 		1. Photo_Quality.
 		2. Document_Quality.
