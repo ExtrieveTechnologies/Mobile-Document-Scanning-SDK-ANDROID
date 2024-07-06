@@ -14,7 +14,7 @@ QuickCapture Mobile Scanning SDK Specially designed for native ANDROID from [Ext
 > **Developer-friendly** & **Easy to integration** SDK.
 
 *Choose the **right** version that suits your need* :
-- [**QuickCapture v4**](https://github.com/ExtrieveTechnologies/QuickCapture_Android/tree/QuickCapture-V3#document-scanning-capture-sdk-android-v4): Comprehensive & advanced **AI** functionalities,**QR Code & BAR Code** Scanning & Generation.
+- [**QuickCapture v4**](https://github.com/ExtrieveTechnologies/QuickCapture_Android): Comprehensive & advanced **AI** functionalities,**QR Code & BAR Code** Scanning & Generation.
 - [**QuickCapture v3**](https://github.com/ExtrieveTechnologies/QuickCapture_Android/tree/QuickCapture-V3#document-scanning-capture-sdk-android-v3): Comprehensive & advanced **AI** functionalities, **comparatively bit** larger size [~ **20 MB**].
 - [**QuickCapture v2**](https://github.com/ExtrieveTechnologies/QuickCapture_Android/tree/QuickCapture-V2#document-scanning-capture-sdk-android-v2): Optimized capture functionality, designed to be as compact as possible [~ **2 MB**].
 
