@@ -48,7 +48,7 @@ repositories {
 
 //Then add implementation for SDK in dependencies in build.gradle (module:<yourmodulename>)
 dependencies {
-  implementation 'com.extrieve.quickcapture:QCv4:4.0.10'
+  implementation 'com.extrieve.quickcapture:QCv4:4.0.12'
 }
 ```
 
@@ -58,7 +58,7 @@ Or Maven:
 <dependency>
   <groupId>com.extrieve.quickcapture</groupId>
   <artifactId>QCv4</artifactId>
-  <version>4.0.10</version>
+  <version>4.0.12</version>
 </dependency>
 ```
 
