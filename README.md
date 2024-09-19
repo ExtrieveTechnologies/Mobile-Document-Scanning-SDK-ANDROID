@@ -5,13 +5,18 @@
 ## Document Scanning-Capture SDK ANDROID v4.0
 QuickCapture Mobile Scanning SDK Specially designed for native ANDROID from [Extrieve](https://www.extrieve.com/).
 
-> It's not "**just**" a scanning SDK. It's a "**document**" scanning/capture SDK evolved with **Best Quality**, **Highest Possible Compression**, **Image Optimisation**, of output document in mind.
+> It's not "**just**" a scanning SDK. It's a "**document**" 
+> scanning/capture SDK evolved with **Best Quality**, **Highest Possible Compression**, **Image Optimisation**, keeping output of the document in mind.
 
-> Controls **DPI**,**Layout** & **Size** of output images, PDF & TIFF
+> Control **DPI**,**Layout** & **Size** of output images and can convert them into **PDF & TIFF**
 
 > **QR code** & **BAR Code** Scanning & Generation
 
-> **Developer-friendly** & **Easy to integration** SDK.
+> **Developer-friendly** & **Easy to integrate** SDK.
+
+> **Works entirely offline***, locally on the device, with **no data transferred to any server or third party**.  
+
+*For reduced build size if needed, an initial internet connection may optionally be required to fetch ML data or resource files, depending on the specific integration and features used by the consumer application*
 
 *Choose the **right** version that suits your need* :
 - [**QuickCapture v4**](https://github.com/ExtrieveTechnologies/QuickCapture_Android): Comprehensive & advanced **AI** functionalities,**QR Code & BAR Code** Scanning & Generation.
@@ -34,11 +39,11 @@ QuickCapture Mobile Scanning SDK Specially designed for native ANDROID from [Ext
 - [Web SDK](https://github.com/ExtrieveTechnologies/QuickCapture_WEB)
 
 
-Download
+Access / Download
 --------
-You can use this SDK in any android project's simply by using Gradle :
+You can use this SDK in any Android project simply by using Gradle :
 
-```gradle
+```java
 //Add expack central repo in settings.gradle
 repositories {
   google()
@@ -48,8 +53,9 @@ repositories {
 
 //Then add implementation for SDK in dependencies in build.gradle (module:<yourmodulename>)
 dependencies {
-  implementation 'com.extrieve.quickcapture:QCv4:4.0.12'
+  implementation 'com.extrieve.quickcapture:QCv4_PLUS:<SDK-VERSION>'
 }
+SDK-VERSION - Need to replace with the correct v4 series.
 ```
 
 Or Maven:
@@ -57,32 +63,36 @@ Or Maven:
 ```xml
 <dependency>
   <groupId>com.extrieve.quickcapture</groupId>
-  <artifactId>QCv4</artifactId>
-  <version>4.0.12</version>
+  <artifactId>QCv4_PLUS</artifactId>
+  <version>SDK-VERSION</version>
 </dependency>
+SDK-VERSION - Need to replace with the correct v4 series
 ```
 
-Or you can even download the **.aar** library file from GitHub's [releases page](https://github.com/ExtrieveTechnologies/QuickCapture_Android/releases/) and add the file dependency manually in to the project/app.
+Or can even integrate with the **.aar** library file and manually add the file dependency to the project/app.
 
 
 Compatibility
 -------------
  * **JAVA 17 Support**: QuickCapture v4 requires JAVA version 17 support for the application.
  * **Minimum Android SDK**: QuickCapture v4 requires a minimum API level of 21.
- * **Compiled SDK Version**: QuickCapture v4 compiled against **API 34**.
+ * **Target Android SDK**: QuickCapture v4 features supports **API 34**.
+  * **Compiled SDK Version**: QuickCapture v4 compiled against **API 33**.Host application using this SDK should compiled against 33 or later
  
 
-## API and  integration  Details - Available properties and method
+# API &  integration  Details 
+Available properties and method
 
-SDK have two core classes and supporting classes :
+SDK has four core classes and supporting classes :
 
- 1. **CameraHelper**	  	-	*Handles the  camera  related  operations. Basically, an activity.* 
- 2. **ImgHelper**	  	-	*Purpose of this class is to handle all imaging related operations.*
- 3. **OpticalCodeHelper**	-	*Handles the  Opticalcode (QR CODE & BAR CODE) related activities*
- 4. **Config**		  	-	*Holds various configurations for SDK.*
+ 1. **CameraHelper** - *Handles the  camera  related  operations. Basically, an activity.* 
+ 2. **ImgHelper** - *Purpose of this class is to handle all imaging related operations.*
+ 3. **OpticalCodeHelper** -	*Handles the  Optical code (QR CODE & BAR CODE) related activities*
+ 4. **HumanFaceHelper** -	*Advanced Ai based utility class handles all functionalities such as face detection, extraction,matching & related functions.*
+ 5. **Config**		  	-	*Holds various configurations for SDK including licensing*
  
 
-Based on the requirement, any or all classes can be used. These classes need to be imported from the SDK.
+Based on the requirement, any one or all classes can be used.And need to import those from the SDK.
 ```java
     import com.extrieve.quickcapture.sdk.*;
     //OR : can import only required classes as per use cases.
@@ -90,10 +100,11 @@ Based on the requirement, any or all classes can be used. These classes need to 
     import  com.extrieve.quickcapture.sdk.CameraHelper;
     import  com.extrieve.quickcapture.sdk.OpticalCodeHelper;
     import  com.extrieve.quickcapture.sdk.Config;  
+    import com.extrieve.quickcapture.sdk.HumanFaceHelper;
     import  com.extrieve.quickcapture.sdk.ImgException;
    ```
 ---
-## CameraHelper
+## 1. CameraHelper
 This core class will be implemented as an activity.This class can be initialized as intent.
 ```java
 //JAVA
@@ -104,9 +115,9 @@ CameraHelper CameraHelper = new CameraHelper();
 var cameraHelper: CameraHelper? = CameraHelper()
 ```
 
-With an activity call, triggering SDK for capture activity can be done.Most operations in **CameraHelper** is **activity based**.
+With an activity call, triggering the SDK for capture activity can be done.Most operations in **CameraHelper** is **activity based**.
 
-SDK having multiple flows as follows :
+SDK is having multiple flows as follows :
 	
 * **CAMERA_CAPTURE_REVIEW** - *Default flow. Capture with SDK Camera **->** review.*
 * **SYSTEM_CAMERA_CAPTURE_REVIEW** - *Capture with system default camera **->** review.*
@@ -132,7 +143,7 @@ if  (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP)  {
 //Call the Activity.
 startActivityForResult(CameraIntent,REQUEST_CODE_FILE_RETURN);
 
-//On activity result,recieve the captured, reviewed, cropped, optimised & compressed image colletion as array.
+//On activity result,recieve the captured, reviewed, cropped, optimised & compressed image collection as array.
 @Override
 protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)  
 {
@@ -147,7 +158,7 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
 		finishActivity(REQUEST_CODE_FILE_RETURN); return;
 	}
 	FileCollection = (ArrayList<String>)data.getExtras().get("fileCollection");
-	//FileCollection //: will contains all capture images path as string
+	//FileCollection //: will contain all capture images path as string
 	finishActivity(REQUEST_CODE_FILE_RETURN);
 }
 ```
@@ -171,14 +182,14 @@ try {
 }
 ```
 
-**2. SYSTEM_CAMERA_CAPTURE_REVIEW** - *If user need to capture image with system default camera, this can be used.Includes Capture with system default camera -> Review*.
+**2. SYSTEM_CAMERA_CAPTURE_REVIEW** - *If user needs to capture an image with system default camera, this can be used. It includes Capture with system default camera -> Review*.
 
 ```java
 //JAVA
 
 //Set CaptureMode as SYSTEM_CAMERA_CAPTURE_REVIEW
 Config.CaptureSupport.CaptureMode = Config.CaptureSupport.CaptureModes.SYSTEM_CAMERA_CAPTURE_REVIEW;
-//set permission for output path that set in config.
+//set permission for output path that is set in config.
 UriphotoURI = Uri.parse(Config.CaptureSupport.OutputPath);
 this.grantUriPermission(this.getPackageName(),photoURI,Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);  
 
@@ -205,7 +216,7 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
 		finishActivity(REQUEST_CODE_FILE_RETURN); return;
 	}
 	FileCollection = (ArrayList<String>)data.getExtras().get("fileCollection");
-	//FileCollection //: will contains all capture images path as string
+	//FileCollection //: will contain all capture images path as string
 	finishActivity(REQUEST_CODE_FILE_RETURN);
 }
 ```
@@ -229,7 +240,7 @@ try {
 }
 ```
 
-**3. IMAGE_ATTACH_REVIEW** - *If user needs to review an image from device / gallery - this option can be used. After attaching an image,review and all functionalities depends on review can be avail*.
+**3. IMAGE_ATTACH_REVIEW** - *This option can be used if the user needs to review an image from their device's gallery. After attaching each image, the review and all dependent functionalities become available*.
 
 ```java
 //JAVA
@@ -284,13 +295,22 @@ try {
     Toast.makeText(this, "Failed to open camera  -" + ex.message, Toast.LENGTH_LONG).show()
 }
 ```
-## Config
-SDK is included with a supporting class that has static configuration - this includes all configurations related to SDK.Config contains a collection of sub configurations which include:
+## 2. Config
+The SDK includes a supporting class called for static configuration. This class holds all configurations related to the SDK. It also contains sub-configuration collection for further organization. This includes:  :
 
-- **CaptureSupport** - contains all the Capture & review related configurations.
-Config.CaptureSupport  :  contains various configurations as follows:
+**CaptureSupport** - Contains all the Capture & review related configurations. **Config.CaptureSupport**   contains various configurations as follows:
 
-- **OutputPath** - To set the output directory in which the captured images will be saved.Base app should have rights to write to the provided path.
+- **BottomStampData** -  This configuration will automatically print the specified text at the bottom of the captured image with correct alignment, font size and DPI**. This also  supports placeholders, such as  `{DATETIME}`, which will be replaced with the current date and time from the device at the time of stamping.  **$** - for  new line print.
+	```java
+	 //JAVA
+	Config.CaptureSupport.BottomStampData ="{DATETIME} , Other info $ next line info.";
+	```
+	```kotlin
+	 //Kotlin
+	Config!!.CaptureSupport!!.BottomStampData = ="{DATETIME} , Other info $ next line info.";
+	```
+
+- **OutputPath** - To set the output directory in which the captured images will be saved, base app should have rights to write to the provided path.
 	```java
  	//JAVA
 	Config.CaptureSupport.OutputPath = "pass output path sd string";
@@ -299,7 +319,7 @@ Config.CaptureSupport  :  contains various configurations as follows:
  	//Kotlin
 	Config!!.CaptureSupport!!.OutputPath = "pass output path sd string";
 	```
-- **MaxPage** - To set the number of captures to do on each camera session. And this can also control whether the capture mode is single  or multi i.e :
+- **MaxPage** - To set the number of captures to do on each camera session, can also control whether the capture mode is single  or multi i.e :
 	> if  MaxPage  <= 0 /  not  set:  means  unlimited.If  MaxPage  >= 1:
 	> means  limited.
 	```java
@@ -329,7 +349,7 @@ Config.CaptureSupport  :  contains various configurations as follows:
 	//RBG (1) - Use capture flow in color mode.
 	//GREY (2) - Use capture flow in grey scale mode.
 	```
-- **EnableFlash**  -  Enable Document capture specific to flash control for SDK camera.
+- **EnableFlash**  -  Enable Document capture specific flash control for SDK camera.
 	```java
 	//JAVA
 	Config.CaptureSupport.EnableFlash = true;
@@ -351,44 +371,41 @@ Config.CaptureSupport  :  contains various configurations as follows:
 - **CameraToggle**  -  Toggle  camera  between  front  and  back.
 	```java
 	//JAVA
-	 Config.CaptureSupport.CameraToggle = CameraToggleType.ENABLE_BACK_DEFAULT;
+	Config.CaptureSupport.CameraToggle = CameraToggleType.ENABLE_BACK_DEFAULT;
 	//DISABLED (0) -Disable camera toggle option.
 	//ENABLE_BACK_DEFAULT (1) - Enable camera toggle option with Front camera by default.
 	//ENABLE_FRONT_DEFAULT (2) - Enable camera toggle option with Back camera  by default.
 	```
 	```kotlin
 	//Kotlin
-	 Config!!.CaptureSupport!!.CameraToggle = CameraToggleType!!.ENABLE_BACK_DEFAULT;
+	Config!!.CaptureSupport!!.CameraToggle = CameraToggleType!!.ENABLE_BACK_DEFAULT;
 	//DISABLED (0) -Disable camera toggle option.
 	//ENABLE_BACK_DEFAULT (1) - Enable camera toggle option with Front camera by default.
 	//ENABLE_FRONT_DEFAULT (2) - Enable camera toggle option with Back camera  by default.
+	```
 
-**Common** - contains all the Capture & review related configurations.
-Config.CaptureSupport  :  contains various configurations as follows:
+**Common** - Contains various configurations as follows:
+
 - **SDKInfo**  - Contains all version related information on SDK.
 	```java
 	//JAVA
-	Config.CaptureSupport.SDKInfo;
+	Config.Common.SDKInfo;
 	```
 	```kotlin
 	//Kotlin
-	Config!!.CaptureSupport!!.SDKInfo;
+	Config!!.Common!!.SDKInfo;
 	```
 - **DeviceInfo** - Will share all general information about the device.
 	```java
 	//JAVA
-	Config.CaptureSupport.DeviceInfo;
+	Config.Common.DeviceInfo;
 	```
 	```kotlin
 	//Kotlin
-	Config!!.CaptureSupport!!.DeviceInfo;
+	Config!!.Common!!.DeviceInfo;
 	```
-
-
-**License** - contains all the Capture & review related configurations.
-Config.CaptureSupport  :  contains various configurations as follows:	```
-
-- ***Activate*** - *Set the Layout for the images generated/processed by the system.*
+**License** - Cotrolls all activities relates to licensing.
+- ***Activate*** - *Method to activate the SDK license.*
 	```java
  	//JAVA
 	Config.License.Activate(hostApplicationContext,licenseString);
@@ -397,12 +414,12 @@ Config.CaptureSupport  :  contains various configurations as follows:	```
   	//Kotlin
 	Config!!.License!!.Activate(hostApplicationContext,licenseString)
 	```
-	 >*Available layouts* : A1, A2, A3, **A4**, A5, A6, A7,PHOTO & CUSTOM
+	 > **hostApplicationContext** : Application context of host/client application which is using the SDK.
+	 	 > **licenseString** : Licence data in string format.
 	 
-	*A4 is the most recommended layout for document capture scenarios.*
 	 
 
-## ImgHelper
+## 3. ImgHelper
 Following are the options/methods available from class **ImgHelper** :
 ```java
 //JAVA
@@ -430,13 +447,13 @@ var ImageHelper: ImgHelper? = ImgHelper(this)
 	```
 - ***SetPageLayout*** - *Set the Layout for the images generated/processed by the system.*
 	```java
- 	//JAVA
+	//JAVA
 	ImageHelper.SetPageLayout(ImgHelper.LayoutType.A4.ordinal());
 	//--------------------------
 	ImageHelper.SetPageLayout(4);//A1-A7(1-7),PHOTO,CUSTOM,ID(8,9,10)
 	```
- 	```kotlin
-  	//Kotlin
+	```kotlin
+	//Kotlin
 	imageHelper!!.SetPageLayout(4)
 	```
 	 >*Available layouts* : A1, A2, A3, **A4**, A5, A6, A7,PHOTO & CUSTOM
@@ -445,7 +462,7 @@ var ImageHelper: ImgHelper? = ImgHelper(this)
 	 
 - ***SetDPI*** - *Set DPI(depth per inch) for the image.*
 	```java
- 	//JAVA
+	//JAVA
 	ImageHelper.SetDPI(ImgHelper.DPI.DPI_200.ordinal());
 	//--------------------------
 	ImageHelper.SetDPI(200);//int dpi_val = 150, 200, 300, 500, 600;
@@ -460,7 +477,7 @@ var ImageHelper: ImgHelper? = ImgHelper(this)
 	 
 - ***GetThumbnail*** - *This method Will build thumbnail for the given image in custom width,height & AspectRatio.*
 	```java
- 	//JAVA
+	//JAVA
 	Bitmap thumb = ImageHelper.GetThumbnail(ImageBitmap, 600, 600, true);
 	/*
 	Bitmap GetThumbnail(
@@ -473,23 +490,19 @@ var ImageHelper: ImgHelper? = ImgHelper(this)
 	```kotlin
 	//KOTLIN
 	var thumb = ImageHelper!!.GetThumbnail(ImageBitmap, 600, 600, true);
-
 	```
-- ***CompressToJPEG*** - *This method will Compress the provided bitmap image and will save to given path..*
+- ***CompressToJPEG*** - *This method will Compress the provided bitmap image and will save to given path.\*
 	```java
 	//JAVA
-
 	Boolean Iscompressed = ImageHelper.CompressToJPEG(bitmap,outputFilePath);
 	/*
 	Boolean CompressToJPEG(Bitmap bm,String outputFilePath)
 		throws ImgException
-
 	*/
 	```
- 	```kotlin
+	```kotlin
 	//KOTLIN
 	var Iscompressed = ImageHelper!!.CompressToJPEG(bitmap, outputFilePath);
-
 	```
 	
 - ***rotateBitmap*** - *This method will rotate the image to preferred orientation.*
@@ -504,11 +517,10 @@ var ImageHelper: ImgHelper? = ImgHelper(this)
   	```kotlin
 	//KOTLIN
 	var thumb = ImageHelper!!.rotateBitmapDegree(bitmap, RotationDegree);
-
 	```
-- **GetTiffForLastCapture** - Build Tiff file output file from last captured set of images.
+- **GetTiffForLastCapture** - Build Tiff output file from last captured set of images.
 	```java
- 	//JAVA
+	//JAVA
 	ImageHelper.GetTiffForLastCapture(outPutFileWithpath);
 	//on success, will respond with string : "SUCCESS:::TiffFilePath";
 	//use  ":::"  char.  key  to  split  the  response.
@@ -519,11 +531,10 @@ var ImageHelper: ImgHelper? = ImgHelper(this)
 	```kotlin
 	//KOTLIN
 	var thumb = ImageHelper!!.GetTiffForLastCapture(outPutFileWithpath);
-
 	```
-- **GetPDFForLastCapture**  -  Build  PDF  file  output  file  from  last  captured  set  of  images.
+- **GetPDFForLastCapture**  -  Build  PDF  output file  from  last  captured  set  of  images.
 	```java
- 	//JAVA
+	//JAVA
 	ImageHelper.GetPDFForLastCapture(outPutFileWithpath);
 	//on success, will respond with string : "SUCCESS:::PdfFilePath";
 	//use  ":::"  char.  key  to  split  the  response.
@@ -534,72 +545,156 @@ var ImageHelper: ImgHelper? = ImgHelper(this)
  	```kotlin
 	//KOTLIN
 	var thumb = ImageHelper!!.GetPDFForLastCapture(outPutFileWithpath);
-
 	```
-- **BuildTiff**  - Build .tiff  file  output from the list  of  images shared.
+- **BuildTiff**  - Build tiff output file from the list  of  images shared.
 	```java
- 	//JAVA
+	//JAVA
 	ImageHelper.BuildTiff(ImageCol,OutputTiffFilePath);
 	*@param "Image File path collection as ArrayList<String>".
- 	*@param "Output Tiff FilePath as String".
+	*@param "Output Tiff FilePath as String".
 	*@return on failure = "FAILED:::REASON" || on success = "SUCCESS:::TIFF file path".
 	```
- 	```kotlin
+	```kotlin
 	//KOTLIN
 	var thumb = ImageHelper!!.BuildTiff(ImageCol,OutputTiffFilePath);
-
 	```
-- **BuildPDF**  - Build PDF file output file from last captured set of images.
+- **BuildPDF**  - Build PDF output file from last captured set of images.
 	```java
 	//JAVA
 	ImageHelper.BuildPDF(ImageCol,outPutPDFFileWithpath);
 	*@param  "Image File path collection as ArrayList<String>"
- 	*@param "Output Tiff FilePath as String".
+	*@param "Output Tiff FilePath as String".
 	*@return  on failure = "FAILED:::REASON" || on success = "SUCCESS:::PDF file path".
 	```
 	```kotlin
 	//KOTLIN
 	var thumb = ImageHelper!!.BuildPDF(ImageCol,OutputTiffFilePath);
-
 	```
-
-## ImgException 
-As a part of exceptional error handling **ImgException** class is available.
-- *Following are the possible errors and corresponding codes*:
-	- CREATE_FILE_ERROR= **-100**;
-	- IMAGE_ROTATION_ERROR= **-101**;
-	- LOAD_TO_BUFFER_ERROR= **-102**;
-	- DELETE_FILE_ERROR= **-103**;
-	- GET_ROTATION_ERROR= **-104**;
-	- ROTATE_BITMAP_ERROR= **-105**;
-	- BITMAP_RESIZE_ERROR= **-106**;
-	- CAMERA_HELPER_ERROR= **-107**;
-	- LOG_CREATION_ERROR= **-108**;
-	
-## SDK Licensing
-
-*License file provided that should keep inside assets folder of main application and call UnlockImagingLibrary from ImgHelper class to unlock the SDK.*
-> **QuickCapture** SDK is absolutely **free** to use.But for image operations on enterprise use cases, license required.
-> [Click for license details ](https://www.extrieve.com/mobile-document-scanning/)
-
+## 5. OpticalCodeHelper
+Following are the options/methods available from class **OpticalCodeHelper** :
 ```java
 //JAVA
-	
-//Read lic asset file locally or provide a file url
-// eg : String licData = readAssetFile("com.extrieve.lic", this);  
-//Pass liscence data to Activate method on Config.License.
-String licStr = "<Provide license string here >";  
-Boolean IsUnlocked = Config.License.Activate(this,licStr);
+OpticalCodeHelper opticalCodeObj = new OpticalCodeHelper(this);
 ```
-
 ```kotlin
-//KOTLIN
-
-//Read lic asset file locally or provide a file url
-// eg : String licData = readAssetFile("com.extrieve.lic", this);  
-//Pass liscence data to UnlockImagingLibrary method on object(imageHelper) of ImgHelper class.
-val isUnlocked: Boolean = Config!!.License!!.Activate(this,licStr);
+//Kotlin
+var opticalCodeObj : OpticalCodeHelper? = OpticalCodeHelper(this)
 ```
+- ***GenerateQRCode*** - *Method to generate QR Code*.Data need to pass in string format.Will return a bitmap of generated QR Code.
+		
+	```java
+	//JAVA
+	Bitmap qrcode = opticalCodeObj.GenerateQRCode(QRdata);
+	```
+	```kotlin
+	//KOTLIN
+	var qrcode = opticalCodeObj!!.GenerateQRCode(QRdata);
+	```
+- ***GenerateBarcode*** - *Method to generate BAR Code*.Data need to pass in string format.Will return a bitmap of generated BAR Code.
+		
+	```java
+	//JAVA
+	Bitmap qrcode = opticalCodeObj.GenerateBarcode(QRdata);
+	```
+	```kotlin
+	//KOTLIN
+	var qrcode = opticalCodeObj!!.GenerateBarcode(QRdata);
+	```
+- ***GenerateBarcodeWithText*** - *Method to generate GenerateBarcodeWithText*.Data need to pass in string format.Will return a bitmap of generated BAR Code with visible text.
+		
+	```java
+	//JAVA
+	Bitmap qrcode = opticalCodeObj.GenerateBarcode(QRdata);
+	```
+	```kotlin
+	//KOTLIN
+	var qrcode = opticalCodeObj!!.GenerateBarcode(QRdata);
+	```
+- **Scan / Capture OpticalCodes (QR Code / BAR Code)** - *Option to Scan or capture the **Optical Codes**.This is an activity based call.On activity result, will get the extracted data from the optical code*
 
+	```java
+	//JAVA
+	//Register the activity results
+	private OpticalCodeActivityResultLauncher<Intent> registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> handleOpticalCaptureActivityResult(result));
 	
-[© 1996 - 2023 Extrieve Technologies](https://www.extrieve.com/)
+	//trigger the activity
+	try {  
+		Intent CameraIntent = new Intent(this, Class.forName("com.extrieve.quickcapture.sdk.OpticalCodeHelper"));  
+		Uri photoURI = Uri.parse(Config.CaptureSupport.OutputPath);  
+		this.grantUriPermission(this.getPackageName(), photoURI, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);  
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {  
+			CameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);  
+		}  
+		captureActivityResultLauncher.launch(CameraIntent);  
+	} catch (ClassNotFoundException e) {  
+		Toast.makeText(this, "Failed to open camera + ", Toast.LENGTH_LONG).show();  
+		e.printStackTrace();  
+	}
+	
+	//Registered method to handle the result on callback
+	private void handleOpticalCaptureActivityResult(ActivityResult result) {  
+	{  
+		int resultCode = result.getResultCode();  
+		if (resultCode == Activity.RESULT_OK) {
+			String qrData = (String) data.getExtras().get("DATA");  
+			String qrType = (String) data.getExtras().get("TYPE");  
+			//showToast("QR_BAR_Code Data: " + qrData, Gravity.CENTER);  
+			//Here captured optical codes data can be extracted
+			finishActivity(REQUEST_CODE_FILE_RETURN);  
+			return;
+		}
+	}
+	```
+	```kotlin
+	//Kotlin
+	
+	// Register the activity results
+	private val opticalCaptureActivityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+	   handleOpticalCaptureActivityResult(result)
+	}
+
+	// Trigger the activity
+	try {
+	   val cameraIntent = Intent(this, Class.forName("com.extrieve.quickcapture.sdk.OpticalCodeHelper"))
+	   val photoURI: Uri = Uri.parse(Config.CaptureSupport.OutputPath)
+	   this.grantUriPermission(this.packageName, photoURI, Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
+	   if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+	       cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+	   }
+	   opticalCaptureActivityResultLauncher.launch(cameraIntent)
+	} catch (e: ClassNotFoundException) {
+	   Toast.makeText(this, "Failed to open camera + ", Toast.LENGTH_LONG).show()
+	   e.printStackTrace()
+	}
+
+	// Registered method to handle the result on callback
+	private fun handleOpticalCaptureActivityResult(result: ActivityResult) {
+	   val resultCode = result.resultCode
+	   val data = result.data
+	   if (resultCode == Activity.RESULT_OK && data != null) {
+	       val qrData = data.extras?.getString("DATA")
+	       val qrType = data.extras?.getString("TYPE")
+	       // showToast("QR_BAR_Code Data: $qrData", Gravity.CENTER)
+	       // Here captured optical codes data can be extracted
+	       finishActivity(REQUEST_CODE_FILE_RETURN)
+	   }
+	}
+	```
+# Error Handling & Exceptions 
+- As a part of exceptional error handling **ImgException** class is available.
+	- *Following are the possible errors and corresponding codes*:
+		- CREATE_FILE_ERROR= **-100**;
+		- IMAGE_ROTATION_ERROR= **-101**;
+		- LOAD_TO_BUFFER_ERROR= **-102**;
+		- DELETE_FILE_ERROR= **-103**;
+		- GET_ROTATION_ERROR= **-104**;
+		- ROTATE_BITMAP_ERROR= **-105**;
+		- BITMAP_RESIZE_ERROR= **-106**;
+		- CAMERA_HELPER_ERROR= **-107**;
+		- LOG_CREATION_ERROR= **-108**;
+- Also with **Config.CaptureSupport.LastLogInfo** last logged exception or error details can be identified.
+
+**Extrieve** - *Your Expert in Document Management & AI Solutions.*
+
+[© 1996 - 2024 Extrieve Technologies](https://www.extrieve.com/)
+	
