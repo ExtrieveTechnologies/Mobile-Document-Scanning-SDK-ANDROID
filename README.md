@@ -54,6 +54,7 @@ repositories {
 //Then add implementation for SDK in dependencies in build.gradle (module:<yourmodulename>)
 dependencies {
   implementation 'com.extrieve.quickcapture:QCv4_PLUS:<SDK-VERSION>'
+  // use latest verision : 4.0.12
 }
 SDK-VERSION - Need to replace with the correct v4 series.
 ```
