@@ -4,7 +4,6 @@
 
 ## Document Scanning-Capture SDK ANDROID v4.0
 QuickCapture Mobile Scanning SDK Specially designed for native ANDROID from [Extrieve](https://www.extrieve.com/).
-Latest Release verion : 4.0.12
 
 > It's not "**just**" a scanning SDK. It's a "**document**" 
 > scanning/capture SDK evolved with **Best Quality**, **Highest Possible Compression**, **Image Optimisation**, keeping output of the document in mind.
@@ -43,7 +42,8 @@ Latest Release verion : 4.0.12
 Access / Download
 --------
 You can use this SDK in any Android project simply by using Gradle :
-
+### Latest Release verion : 4.0.12
+*From v4 SDK will not support direct aar file linking - Use maven link instead*
 ```java
 //Add expack central repo in settings.gradle
 repositories {
