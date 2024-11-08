@@ -4,6 +4,7 @@
 
 ## Document Scanning-Capture SDK ANDROID v4.0
 QuickCapture Mobile Scanning SDK Specially designed for native ANDROID from [Extrieve](https://www.extrieve.com/).
+Latest Release verion : 4.0.12
 
 > It's not "**just**" a scanning SDK. It's a "**document**" 
 > scanning/capture SDK evolved with **Best Quality**, **Highest Possible Compression**, **Image Optimisation**, keeping output of the document in mind.
